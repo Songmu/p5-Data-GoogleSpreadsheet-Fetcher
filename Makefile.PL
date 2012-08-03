@@ -2,7 +2,8 @@ use inc::Module::Install;
 name 'Data-GoogleSpreadsheet-Dumper';
 all_from 'lib/Data/GoogleSpreadsheet/Dumper.pm';
 
-# requires '';
+requires 'Any::Moose';
+requires 'Net::Google::Spreadsheets';
 
 tests 't/*.t';
 author_tests 'xt';
