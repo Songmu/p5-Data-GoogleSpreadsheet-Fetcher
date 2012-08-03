@@ -1,7 +1,7 @@
 package Data::GoogleSpreadSheet::Manager;
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.01_01';
 $VERSION = eval $VERSION;
 
 use utf8;
@@ -58,7 +58,7 @@ sub dump_worksheet {
 
     my @columns     = @{$table_config->{columns} || []};
     unless (@columns) {
-        @columns = grep {/^[a-z]/} map {replace_column4db($_)} keys %{$rows[0]->content};
+        @columns = grep {/^[a-z]/} map {_replace_column4db($_)} keys %{$rows[0]->content};
     }
     my @db_columns = (@columns, @{$table_config->{addtional_columns} || []});
     my @table_rows;
@@ -72,7 +72,7 @@ sub dump_worksheet {
 
         my %row_data;
         for my $real_column (@db_columns) {
-            my $sheet_column = replace_column4spreadsheet($real_column);;
+            my $sheet_column = _replace_column4spreadsheet($real_column);;
             $row_data{$real_column} = _trim($content->{$sheet_column});
         }
 
@@ -111,7 +111,7 @@ sub _trim {
     $string;
 }
 
-sub replace_column4spreadsheet {
+sub _replace_column4spreadsheet {
     my ($column_name) = @_;
 
     $column_name =~ s/_/-/g;
@@ -119,7 +119,7 @@ sub replace_column4spreadsheet {
     $column_name;
 }
 
-sub replace_column4db {
+sub _replace_column4db {
     my ($column_name) = @_;
 
     $column_name =~ s/-/_/g;
