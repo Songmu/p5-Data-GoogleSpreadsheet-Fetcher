@@ -31,14 +31,17 @@ has config => (
 );
 
 has username => (
+    is  => 'rw',
     isa => 'Str',
 );
 
 has password => (
+    is  => 'rw',
     isa => 'Str',
 );
 
 has key => (
+    is  => 'rw',
     isa => 'Str',
 );
 
@@ -46,11 +49,7 @@ no Any::Moose;
 
 sub spreadsheet_to_rows {
     my ($self, $table) = @_;
-    my $table_config = $self->config->{tables}{$table};
-    unless ($table_config) {
-        warn 'table data [' . $table . '] is not defined';
-        return;
-    }
+    my $table_config = $self->config->{tables}{$table} || {};
     my $sheet     = $table_config->{sheet} || $table;
     my ($worksheet) = grep {$_->title eq $sheet} $self->spreadsheet->worksheets;
 
@@ -59,12 +58,10 @@ sub spreadsheet_to_rows {
 
     my @columns     = @{$table_config->{columns} || []};
     unless (@columns) {
-        @rows = map {replace_column4db($_)} keys %{$rows[0]};
+        @columns = grep {/^[a-z]/} map {replace_column4db($_)} keys %{$rows[0]->content};
     }
 
-    my @search_cols = map {replace_column4spreadsheet($_)} @columns;
     my @real_columns = (@columns, @{$table_config->{addtional_columns} || []});
-
     my @table_rows;
 
   ROW:
@@ -74,8 +71,7 @@ sub spreadsheet_to_rows {
 
         my %row_data;
         for my $real_column (@real_columns) {
-            my $sheet_column = $real_column;
-            $sheet_column =~ s/_//g;
+            my $sheet_column = replace_column4spreadsheet($real_column);;
             $row_data{$real_column} = _trim($content->{$sheet_column});
         }
 
