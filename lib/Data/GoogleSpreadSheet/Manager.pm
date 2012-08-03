@@ -63,10 +63,12 @@ sub dump_worksheet {
     my @db_columns = (@columns, @{$table_config->{addtional_columns} || []});
     my @table_rows;
 
+    my %seen_id;
   ROW:
     for my $row (@rows) {
         my $content = $row->content;
         next if $content->{id} && $content->{id} !~ /^\d+$/;
+        !$seen_id{$content->{id}}++ or die "id $content->{id} is duplicated!";
 
         my %row_data;
         for my $real_column (@db_columns) {
