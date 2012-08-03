@@ -138,6 +138,12 @@ Data::GoogleSpreadsheet::Dumper -
 =head1 SYNOPSIS
 
   use Data::GoogleSpreadsheet::Dumper;
+  my $dumper = Data::GoogleSpreadsheet::Dumper->new(
+      username => 'username',
+      password => 'your_password_here',
+      key      => 'spreadsheet key',
+  );
+  my @records = $dumper->dump_worksheet('sheet_name');
 
 =head1 DESCRIPTION
 
