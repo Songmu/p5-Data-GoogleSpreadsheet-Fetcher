@@ -1,6 +1,6 @@
 use inc::Module::Install;
-name 'Data-GoogleSpreadSheet-Manager';
-all_from 'lib/Data/GoogleSpreadSheet/Manager.pm';
+name 'Data-GoogleSpreadsheet-Dumper';
+all_from 'lib/Data/GoogleSpreadsheet/Dumper.pm';
 
 # requires '';
 

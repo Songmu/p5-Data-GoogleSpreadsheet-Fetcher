@@ -1,11 +1,11 @@
-This is Perl module Data::GoogleSpreadSheet::Manager.
+This is Perl module Data::GoogleSpreadsheet::Dumper.
 
 INSTALLATION
 
-Data::GoogleSpreadSheet::Manager installation is straightforward. If your CPAN shell is set up,
+Data::GoogleSpreadsheet::Dumper installation is straightforward. If your CPAN shell is set up,
 you should just be able to do
 
-    % cpan Data::GoogleSpreadSheet::Manager
+    % cpan Data::GoogleSpreadsheet::Dumper
 
 Download it, unpack it, then build it as per the usual:
 
@@ -18,9 +18,9 @@ Then install it:
 
 DOCUMENTATION
 
-Data::GoogleSpreadSheet::Manager documentation is available as in POD. So you can do:
+Data::GoogleSpreadsheet::Dumper documentation is available as in POD. So you can do:
 
-    % perldoc Data::GoogleSpreadSheet::Manager
+    % perldoc Data::GoogleSpreadsheet::Dumper
 
 to read the documentation online with your favorite pager.
 

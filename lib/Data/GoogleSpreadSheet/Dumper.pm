@@ -1,4 +1,4 @@
-package Data::GoogleSpreadSheet::Manager;
+package Data::GoogleSpreadsheet::Dumper;
 use strict;
 use warnings;
 our $VERSION = '0.01_01';
@@ -133,15 +133,15 @@ __END__
 
 =head1 NAME
 
-Data::GoogleSpreadSheet::Manager -
+Data::GoogleSpreadsheet::Dumper -
 
 =head1 SYNOPSIS
 
-  use Data::GoogleSpreadSheet::Manager;
+  use Data::GoogleSpreadsheet::Dumper;
 
 =head1 DESCRIPTION
 
-Data::GoogleSpreadSheet::Manager is
+Data::GoogleSpreadsheet::Dumper is
 
 =head1 AUTHOR
 
