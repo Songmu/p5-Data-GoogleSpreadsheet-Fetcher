@@ -45,7 +45,7 @@ has config => (
     default => sub {{}},
 );
 
-has ignore_empty_string => (
+has ignore_empty => (
     is      => 'ro',
     isa     => 'Int',
     default => sub {0},
@@ -81,7 +81,7 @@ sub dump_worksheet {
             my $sheet_column = _replace_column4spreadsheet($real_column);
 
             my $data = _trim($content->{$sheet_column});
-            next if $self->ignore_empty_string && $data eq '';
+            next if $self->ignore_empty && $data eq '';
             $row_data{$real_column} = $data;
         }
 
