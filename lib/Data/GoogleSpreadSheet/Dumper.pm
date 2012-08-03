@@ -2,7 +2,7 @@ package Data::GoogleSpreadsheet::Dumper;
 use strict;
 use warnings;
 our $VERSION = '0.01_01';
-$VERSION = eval $VERSION;
+$VERSION = eval $VERSION; ## no critic
 
 use utf8;
 use Net::Google::Spreadsheets;
