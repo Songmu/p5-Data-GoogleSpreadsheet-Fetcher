@@ -45,6 +45,12 @@ has config => (
     default => sub {{}},
 );
 
+has ignore_empty_string => (
+    is      => 'ro',
+    isa     => 'Int',
+    default => sub {0},
+);
+
 no Any::Moose;
 
 sub dump_worksheet {
@@ -72,8 +78,11 @@ sub dump_worksheet {
 
         my %row_data;
         for my $real_column (@db_columns) {
-            my $sheet_column = _replace_column4spreadsheet($real_column);;
-            $row_data{$real_column} = _trim($content->{$sheet_column});
+            my $sheet_column = _replace_column4spreadsheet($real_column);
+
+            my $data = _trim($content->{$sheet_column});
+            next if $self->ignore_empty_string && $data eq '';
+            $row_data{$real_column} = $data;
         }
 
         my $filters = $table_config->{filter} || [];
