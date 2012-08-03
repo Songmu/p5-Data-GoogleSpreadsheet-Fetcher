@@ -54,12 +54,17 @@ sub spreadsheet_to_rows {
     my $sheet     = $table_config->{sheet} || $table;
     my ($worksheet) = grep {$_->title eq $sheet} $self->spreadsheet->worksheets;
 
-    my @columns     = @{$table_config->{columns}};
-    my @search_cols = map {replace_column4spreadsheet($_)} @columns;
     my $cond        = $table_config->{cond} || {sq => 'id > 0'};
+    my @rows        = $worksheet->rows($cond);
+
+    my @columns     = @{$table_config->{columns} || []};
+    unless (@columns) {
+        @rows = map {replace_column4db($_)} keys %{$rows[0]};
+    }
+
+    my @search_cols = map {replace_column4spreadsheet($_)} @columns;
     my @real_columns = (@columns, @{$table_config->{addtional_columns} || []});
 
-    my @rows        = $worksheet->rows($cond);
     my @table_rows;
 
   ROW:
@@ -112,6 +117,14 @@ sub replace_column4spreadsheet {
     my ($column_name) = @_;
 
     $column_name =~ s/_/-/g;
+
+    $column_name;
+}
+
+sub replace_column4db {
+    my ($column_name) = @_;
+
+    $column_name =~ s/-/_/g;
 
     $column_name;
 }
