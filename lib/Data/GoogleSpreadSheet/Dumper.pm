@@ -24,25 +24,25 @@ has spreadsheet => (
     },
 );
 
-has config => (
-    is      => 'ro',
-    isa     => 'HashRef',
-    default => sub {{}},
-);
-
 has username => (
-    is  => 'rw',
+    is  => 'ro',
     isa => 'Str',
 );
 
 has password => (
-    is  => 'rw',
+    is  => 'ro',
     isa => 'Str',
 );
 
 has key => (
-    is  => 'rw',
+    is  => 'ro',
     isa => 'Str',
+);
+
+has config => (
+    is      => 'ro',
+    isa     => 'HashRef',
+    default => sub {{}},
 );
 
 no Any::Moose;
