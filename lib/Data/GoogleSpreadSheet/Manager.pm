@@ -47,7 +47,7 @@ has key => (
 
 no Any::Moose;
 
-sub spreadsheet_to_rows {
+sub dump_worksheet {
     my ($self, $table) = @_;
     my $table_config = $self->config->{tables}{$table} || {};
     my $sheet     = $table_config->{sheet} || $table;
@@ -60,8 +60,7 @@ sub spreadsheet_to_rows {
     unless (@columns) {
         @columns = grep {/^[a-z]/} map {replace_column4db($_)} keys %{$rows[0]->content};
     }
-
-    my @real_columns = (@columns, @{$table_config->{addtional_columns} || []});
+    my @db_columns = (@columns, @{$table_config->{addtional_columns} || []});
     my @table_rows;
 
   ROW:
@@ -70,7 +69,7 @@ sub spreadsheet_to_rows {
         next if $content->{id} && $content->{id} !~ /^\d+$/;
 
         my %row_data;
-        for my $real_column (@real_columns) {
+        for my $real_column (@db_columns) {
             my $sheet_column = replace_column4spreadsheet($real_column);;
             $row_data{$real_column} = _trim($content->{$sheet_column});
         }
@@ -87,7 +86,8 @@ sub spreadsheet_to_rows {
         }
 
         my @validates =
-            grep {$_ && ref $_ eq 'CODE'} ($self->config->{global}{hooks}{row_validate}, $table_config->{row_validate});
+            grep {$_ && ref $_ eq 'CODE'}
+            ($self->config->{global}{hooks}{row_validate}, $table_config->{row_validate});
 
         for my $validate (@validates) {
             next ROW unless $validate->(\%row_data);
