@@ -62,16 +62,23 @@ sub fetch_worksheet {
     my $cond        = $table_config->{cond} || {sq => 'id > 0'};
     my @rows        = map {$_->content} $worksheet->rows($cond);
 
+    return $self->_process_rows($table, \@rows);
+}
+
+sub _process_rows {
+    my ($self, $table, $rows) = @_;
+
+    my $table_config = $self->config->{tables}{$table} || {};
     my @columns     = @{$table_config->{columns} || []};
     unless (@columns) {
-        @columns = grep {/^[a-z]/} map {_replace_column4db($_)} keys %{$rows[0]};
+        @columns = grep {/^[a-z]/} map {_replace_column4db($_)} keys %{$rows->[0]};
     }
     my @db_columns = (@columns, @{$table_config->{addtional_columns} || []});
     my @table_rows;
 
     my %seen_id;
   ROW:
-    for my $row (@rows) {
+    for my $row (@$rows) {
         next if $row->{id} && $row->{id} !~ /^\d+$/;
         !$seen_id{$row->{id}}++ or die "id $row->{id} is duplicated!";
 
