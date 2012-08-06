@@ -60,11 +60,11 @@ sub fetch_worksheet {
     my ($worksheet) = grep {$_->title eq $sheet} $self->spreadsheet->worksheets;
 
     my $cond        = $table_config->{cond} || {sq => 'id > 0'};
-    my @rows        = $worksheet->rows($cond);
+    my @rows        = map {$_->content} $worksheet->rows($cond);
 
     my @columns     = @{$table_config->{columns} || []};
     unless (@columns) {
-        @columns = grep {/^[a-z]/} map {_replace_column4db($_)} keys %{$rows[0]->content};
+        @columns = grep {/^[a-z]/} map {_replace_column4db($_)} keys %{$rows[0]};
     }
     my @db_columns = (@columns, @{$table_config->{addtional_columns} || []});
     my @table_rows;
@@ -72,15 +72,14 @@ sub fetch_worksheet {
     my %seen_id;
   ROW:
     for my $row (@rows) {
-        my $content = $row->content;
-        next if $content->{id} && $content->{id} !~ /^\d+$/;
-        !$seen_id{$content->{id}}++ or die "id $content->{id} is duplicated!";
+        next if $row->{id} && $row->{id} !~ /^\d+$/;
+        !$seen_id{$row->{id}}++ or die "id $row->{id} is duplicated!";
 
         my %row_data;
         for my $real_column (@db_columns) {
             my $sheet_column = _replace_column4spreadsheet($real_column);
 
-            my $data = _trim($content->{$sheet_column});
+            my $data = _trim($row->{$sheet_column});
             next if $self->ignore_empty && $data eq '';
             $row_data{$real_column} = $data;
         }
