@@ -53,7 +53,7 @@ has ignore_empty => (
 
 no Any::Moose;
 
-sub dump_worksheet {
+sub fetch_worksheet {
     my ($self, $table) = @_;
     my $table_config = $self->config->{tables}{$table} || {};
     my $sheet     = $table_config->{sheet} || $table;
@@ -147,12 +147,12 @@ Data::GoogleSpreadsheet::Fetcher -
 =head1 SYNOPSIS
 
   use Data::GoogleSpreadsheet::Fetcher;
-  my $dumper = Data::GoogleSpreadsheet::Fetcher->new(
+  my $fetcher = Data::GoogleSpreadsheet::Fetcher->new(
       username => 'username',
       password => 'your_password_here',
       key      => 'spreadsheet key',
   );
-  my @records = $dumper->dump_worksheet('sheet_name');
+  my @records = $fetcher->fetch_worksheet('sheet_name');
 
 =head1 DESCRIPTION
 
