@@ -1,4 +1,4 @@
-package Data::GoogleSpreadsheet::Dumper;
+package Data::GoogleSpreadsheet::Fetcher;
 use strict;
 use warnings;
 our $VERSION = '0.01_01';
@@ -142,12 +142,12 @@ __END__
 
 =head1 NAME
 
-Data::GoogleSpreadsheet::Dumper -
+Data::GoogleSpreadsheet::Fetcher -
 
 =head1 SYNOPSIS
 
-  use Data::GoogleSpreadsheet::Dumper;
-  my $dumper = Data::GoogleSpreadsheet::Dumper->new(
+  use Data::GoogleSpreadsheet::Fetcher;
+  my $dumper = Data::GoogleSpreadsheet::Fetcher->new(
       username => 'username',
       password => 'your_password_here',
       key      => 'spreadsheet key',
@@ -156,7 +156,7 @@ Data::GoogleSpreadsheet::Dumper -
 
 =head1 DESCRIPTION
 
-Data::GoogleSpreadsheet::Dumper is
+Data::GoogleSpreadsheet::Fetcher is
 
 =head1 AUTHOR
 

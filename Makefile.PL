@@ -1,6 +1,6 @@
 use inc::Module::Install;
-name 'Data-GoogleSpreadsheet-Dumper';
-all_from 'lib/Data/GoogleSpreadsheet/Dumper.pm';
+name 'Data-GoogleSpreadsheet-Fetcher';
+all_from 'lib/Data/GoogleSpreadsheet/Fetcher.pm';
 
 requires 'Any::Moose';
 requires 'Net::Google::Spreadsheets';
