@@ -90,10 +90,9 @@ sub fetch_worksheet {
                       ref $filters eq 'HASH'  ? %{$filters} : ();
 
         while (my ($column, $rule) = splice @filters, 0, 2) {
-            $column =~ s/_//g;
-            $content->{$column} =
+            $row_data{$column} =
                 !ref $rule          ? $rule :
-                ref $rule eq 'CODE' ? $rule->($content) : '';
+                ref $rule eq 'CODE' ? $rule->(\%row_data) : '';
         }
 
         my @validates =
