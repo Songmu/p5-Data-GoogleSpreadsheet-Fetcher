@@ -57,7 +57,10 @@ sub fetch_worksheet {
     my ($self, $table) = @_;
     my $table_config = $self->config->{tables}{$table} || {};
     my $sheet     = $table_config->{sheet} || $table;
-    my ($worksheet) = grep {$_->title eq $sheet} $self->spreadsheet->worksheets;
+
+    # my $sheet = $self->spreadsheet->worksheet({title => $sheet}); # doesn't work
+    # because this interface is prefix search
+    my ($worksheet) = grep {$_->title eq $sheet} $self->spreadsheet->worksheets({title => $sheet});
 
     my $cond        = $table_config->{cond} || {sq => 'id > 0'};
     my @rows        = map {$_->content} $worksheet->rows($cond);
@@ -79,7 +82,7 @@ sub _process_rows {
     my %seen_id;
   ROW:
     for my $row (@$rows) {
-        next if $row->{id} && $row->{id} !~ /^\d+$/;
+        next if !$row->{id} || $row->{id} !~ /^\d+$/;
         !$seen_id{$row->{id}}++ or die "id $row->{id} is duplicated!";
 
         my %row_data;
